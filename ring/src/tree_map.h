@@ -1,6 +1,8 @@
 #ifndef TREE_MAP_H
 #define TREE_MAP_H
 
+#define NIL_HV 0
+
 typedef enum {FALSE, TRUE} boolean;
 typedef int cache_id;
 typedef int hash_value;
@@ -30,7 +32,8 @@ typedef struct rbt
 } rbt;
 
 // RBT initialization functions
-rbt_ptr new_rbt(cache_id, hash_value);
+rbt_ptr new_rbt(void);
+//rbt_ptr new_rbt(cache_id, hash_value);
 node_ptr new_node(rbt_ptr, cache_id, hash_value, rbt_node_color);
 
 // destructors
@@ -44,7 +47,10 @@ void rbt_insert(rbt_ptr, node_ptr);
 void rbt_insert_fixup(rbt_ptr, node_ptr);
 void rbt_transplant(rbt_ptr, node_ptr, node_ptr);
 node_ptr rbt_min(rbt_ptr, node_ptr);
+node_ptr rbt_max(rbt_ptr, node_ptr);
 void rbt_delete(rbt_ptr, node_ptr);
 void rbt_delete_fixup(rbt_ptr, node_ptr);
-
+cache_id succ(rbt_ptr t, hash_value value);
+cache_id recur_succ(rbt_ptr t, node_ptr root, node_ptr suc, hash_value value);
+void print(rbt_ptr, node_ptr);
 #endif

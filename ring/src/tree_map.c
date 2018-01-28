@@ -8,30 +8,105 @@
 #include <stdio.h>
 #include "tree_map.h"
 
+// the successor of a node
+cache_id succ(rbt_ptr t, hash_value value)
+{
+    node_ptr curr = t->root;
+    if (value >= rbt_max(t, curr)->cid)
+        return rbt_min(t, curr)->cid;
+    printf("not the min!\n");
+    printf("value is %d\n", value);
+    return recur_succ(t, t->root, t->root, value);
+}
 
-// TODO make new tree with root and return it.
+void print(rbt_ptr t, node_ptr c)
+{
+    if (c == t->nil) return;
+    printf("Cache id (curr, left, right): %d %d %d\n", c->cid, c->left->cid, c->right->cid);
+    //print(t, c->right);
+}
 
-rbt_ptr new_rbt(cache_id root_cache_id, hash_value root_hv)
+
+
+cache_id recur_succ(rbt_ptr t, node_ptr root, node_ptr suc, hash_value value)
+{
+    if (root == t->nil){
+        printf("asdf\a\n");
+        return suc->cid;}
+    if (value == root->hv) {
+        // return leftmost node of right subtree
+        suc = root->right;
+        printf("Suc id:%d\n", suc->cid);
+        if (suc == t->nil) {
+            suc = root;
+            printf("entering 1st while loop\n");
+            while (suc->parent != t->nil && suc->cid < value) {
+                printf("suc is %d\n", suc->cid);
+                suc = suc->parent;
+            }
+            return suc->cid;
+        }
+        while (suc->left != t->nil) {
+            printf("left\n");
+            printf("%d\n", suc->cid);
+
+            suc = suc->left;
+            printf("%d\n", suc->cid);
+        }
+        return suc->cid;
+    }
+    if (root->hv > value) {
+        suc = root;
+        printf("going left\n");
+        return recur_succ(t, root->left, suc, value);
+    }
+    else {
+        printf("Going right\n");
+        return recur_succ(t, root->right, suc, value);
+    }
+
+}
+
+node_ptr rbt_max(rbt_ptr t, node_ptr x)
+{
+    while (x->right != t->nil)
+        x = x->right;
+    return x;
+}
+
+rbt_ptr new_rbt(void)
+//(cache_id root_cache_id, hash_value root_hv)
 {
     rbt_ptr r;
     r = (rbt_ptr) malloc(sizeof(struct rbt));
     r->nil = (node_ptr) malloc(sizeof(struct node));
     r->nil->color = BLACK;
-    r->root = new_node(r, root_cache_id, root_hv, BLACK);
+    r->nil->hv = 0;
+    r->nil->cid = 0;
+    r->root = r->nil;//new_node(r, root_cache_id, root_hv, BLACK);
     r->size = 0;
     return r;
 }
 
 node_ptr new_node(rbt_ptr t, cache_id cid, hash_value hv, rbt_node_color color)
 {
+
+    // if (hv == NIL_HV)
+    //     return NULL;
     node_ptr n;
+
     n = (node_ptr) malloc(sizeof(struct node));
-    n->cid = cid;
-    n->hv = hv;
     n->color = color;
+
+    n->color = color;
+    n->hv = hv;
+
     n->parent = t->nil;
     n->left = t->nil;
     n->right = t->nil;
+    n->cid = cid;
+
+
     return n;
 }
 
@@ -71,7 +146,7 @@ void right_rotate(rbt_ptr t, node_ptr y)
 
 void rbt_insert(rbt_ptr t, node_ptr z)
 {
-    printf("Insert\n");
+    t->size++;
     node_ptr x = t->root;
     node_ptr y = t->nil;
     while (x != t->nil) {
@@ -160,6 +235,7 @@ node_ptr rbt_min(rbt_ptr t, node_ptr x)
 
 void rbt_delete(rbt_ptr t, node_ptr z)
 {
+    t->size--;
     node_ptr x, y = z;
     rbt_node_color y_orig_col = y->color;
     if (z->left == t->nil) {
