@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-static const unsigned long long int jch_seed = 2862933555777941757;
+static const uint64_t jch_seed = 2862933555777941757;
 
 int32_t JumpConsistentHash (uint64_t key, int32_t num_buckets)
 {
