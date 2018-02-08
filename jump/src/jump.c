@@ -1,21 +1,29 @@
-#include <stdint.h>
+/**
+ * "Jump Consistent Hash" is a fast, minimal memory, consistent hash algorithm.
+ *
+ * Source:
+ * John Lamping and Eric Veach,
+ * "A Fast, Minimal Memory, Consistent Hash Algorithm"
+ * https://arxiv.org/abs/1406.2294
+ */
 
-static const uint64_t jch_seed = 2862933555777941757;
+#include "jump.h"
 
-int32_t JumpConsistentHash (uint64_t key, int32_t num_buckets)
+static const uint64_t seed = 2862933555777941757;
+
+int32_t jump_consistent_hash (uint64_t key, int32_t num_buckets)
 {
     int64_t b = -1;
     int64_t j = 0;
 
-    double divisor;
-    double dividend;
+    double divisor, dividend;
 
     while (j < num_buckets) {
         b = j;
-        key = key * jch_seed + 1;
+        key = key * seed + 1;
         divisor = (double)(1LL << 31);
         dividend = (double)((key >> 33) + 1);
-        j = (b + 1) * (divisor / dividend);
+        j = (int64_t) ((b + 1) * (divisor / dividend));
     }
-    return b;
+    return (int32_t) b;
 }
