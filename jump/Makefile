@@ -2,32 +2,24 @@ BIN := bin
 SRC := src
 TST := tst
 
-all: clean compile test
+# Clean output, (re)compile as necessary, and test.
+all : clean compile test
 
-clean:
+# Clean out the `bin/` directory.
+clean :
 	@echo "Cleaning..."
 	@if test -d $(BIN); then rm -rf $(BIN)/*; else mkdir $(BIN); fi
 
-compile:
+# If/as more binaries are needed, add here to maintain a simple `all` rule.
+compile :
 	@echo "Compiling..."
-	@gcc -Wall -o $(BIN)/jch_test $(TST)/jch_test.c
+	@make $(BIN)/jump_test.o
 
-test:
-	@echo "Testing..."
-	@touch $(BIN)/results.txt
-	@echo "START:  Testing  :START\n" >> $(BIN)/results.txt
-	@echo "=======================\n" >> $(BIN)/results.txt
-	$(BIN)/jch_test 10 10 >> $(BIN)/results.txt
-	$(BIN)/jch_test 10 100 >> $(BIN)/results.txt
-	$(BIN)/jch_test 10 1000 >> $(BIN)/results.txt
-	$(BIN)/jch_test 100 10 >> $(BIN)/results.txt
-	$(BIN)/jch_test 100 100 >> $(BIN)/results.txt
-	$(BIN)/jch_test 100 1000 >> $(BIN)/results.txt
-	$(BIN)/jch_test 1000 10 >> $(BIN)/results.txt
-	$(BIN)/jch_test 1000 100 >> $(BIN)/results.txt
-	$(BIN)/jch_test 1000 1000 >> $(BIN)/results.txt
-	@echo "=======================\n" >> $(BIN)/results.txt
-	@echo "FINISH: Testing :FINISH" >> $(BIN)/results.txt
+# Run testing.
+test :
+	@echo "Testing...\n"
+	@$(BIN)/jump_test.o
 
-results:
-	@less $(BIN)/results.txt
+# Compile the testing binary.
+$(BIN)/jump_test.o : $(SRC)/jump.h $(SRC)/jump.c $(TST)/jump_test.h $(TST)/jump_test.c
+	@gcc -Wall -o $(BIN)/jump_test.o $(TST)/jump_test.c
