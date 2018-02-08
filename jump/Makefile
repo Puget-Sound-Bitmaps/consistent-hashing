@@ -22,4 +22,4 @@ test :
 
 # Compile the testing binary.
 $(BIN)/jump_test.o : $(SRC)/jump.h $(SRC)/jump.c $(TST)/jump_test.h $(TST)/jump_test.c
-	@gcc -Wall -o $(BIN)/jump_test.o $(TST)/jump_test.c
+	@gcc -Wall -o $(BIN)/jump_test.o $(TST)/jump_test.c -lm
