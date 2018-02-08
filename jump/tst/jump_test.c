@@ -1,5 +1,4 @@
 #include "jump_test.h"
-#include "../src/jump.c"
 
 /*
  * Run tests for 2^n buckets and 2^m keys where

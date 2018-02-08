@@ -1,9 +1,13 @@
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <math.h>
+
+#include "../src/jump.h"
+#include "../src/jump.c"
 
 typedef struct distribution_stats {
     double variance;
