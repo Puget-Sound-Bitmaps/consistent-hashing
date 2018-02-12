@@ -22,6 +22,7 @@ void print(rbt_ptr t, node_ptr c)
     if (c == t->nil) return;
     printf("Hash value (curr, left, right): %d %d %d\n", c->hv, c->left->hv, c->right->hv);
     print(t, c->right);
+    print(t, c->left);
 }
 
 cache_id recur_succ(rbt_ptr t, node_ptr root, node_ptr suc, hash_value value)

@@ -6,9 +6,7 @@
 typedef int cache_id;
 typedef int hash_value;
 
-// FIXME the above types should be moved to a (globally used) header
-
-typedef enum {RED, BLACK} rbt_node_color; // an alternative to bool
+typedef enum {RED, BLACK} rbt_node_color;
 
 typedef struct node *node_ptr;
 typedef struct rbt *rbt_ptr;

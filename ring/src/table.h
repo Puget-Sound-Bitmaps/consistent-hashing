@@ -2,6 +2,7 @@
 #define TABLE_H
 
 #include <openssl/sha.h>
+#include <stdint.h>
 
 typedef struct cache {
     int cache_id;
@@ -9,6 +10,9 @@ typedef struct cache {
     int replication_factor;
 } cache;
 
-int hash(int);
+/*
+ * Computes a hash value of the given integer.
+ */
+uint64_t hash(int);
 
 #endif
