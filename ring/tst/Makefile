@@ -1,6 +1,11 @@
+BIN := bin/
+
 all: tree_map_test.o
 	@echo "Running tests...\n"
 	@bin/tree_map_test.o
+
+clean:
+	@if test -d $(BIN); then rm -rf $(BIN)/*; else mkdir $(BIN); fi
 
 tree_map_test.o:
 	@echo "Compiling tests..."
