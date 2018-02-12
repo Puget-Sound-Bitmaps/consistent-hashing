@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     char *line = NULL;
     int cache_id, dupli;
     uint64_t hash_value;
-    rbt_ptr tree = new_rbt(); // first node in the tree.
+    rbt_ptr tree = new_rbt(); /* first node in the tree. */
     node_ptr nodes[20];
     int counter = 0;
     while ((read = getline(&line, &read, fp)) != -1) {
@@ -33,13 +33,13 @@ int main(int argc, char *argv[])
     bst_test(tree->root);
     printf("BST Test after inserting passed\n");
 
-    // successor function
+    /* test successor function */
     int i;
     for (i = 0; i < 17; i++) {
         printf("Successor of %d is %d\n", i, succ(tree, hash(i)));
     }
 
-    // test deletions
+    /* test deletions */
     int j;
     for (j = 0; j < 7; j++) {
         rbt_delete(tree, nodes[j]);

@@ -13,7 +13,7 @@ typedef struct rbt *rbt_ptr;
 
 typedef struct node
 {
-    hash_value hv; // key used to identify the node
+    hash_value hv; /* key used to identify the node */
     cache_id cid;
     rbt_node_color color;
     node_ptr left;
