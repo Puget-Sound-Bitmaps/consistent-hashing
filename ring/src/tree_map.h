@@ -3,7 +3,6 @@
 
 #define NIL_HV 0
 
-typedef enum {FALSE, TRUE} boolean;
 typedef int cache_id;
 typedef int hash_value;
 
@@ -52,5 +51,6 @@ void rbt_delete(rbt_ptr, node_ptr);
 void rbt_delete_fixup(rbt_ptr, node_ptr);
 cache_id succ(rbt_ptr t, hash_value value);
 cache_id recur_succ(rbt_ptr t, node_ptr root, node_ptr suc, hash_value value);
-void print(rbt_ptr, node_ptr);
+void print(rbt_ptr t, node_ptr c);
+
 #endif

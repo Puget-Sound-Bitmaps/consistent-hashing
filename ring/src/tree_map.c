@@ -12,56 +12,43 @@
 cache_id succ(rbt_ptr t, hash_value value)
 {
     node_ptr curr = t->root;
-    if (value >= rbt_max(t, curr)->cid)
+    if (value >= rbt_max(t, curr)->hv)
         return rbt_min(t, curr)->cid;
-    printf("not the min!\n");
-    printf("value is %d\n", value);
     return recur_succ(t, t->root, t->root, value);
 }
 
 void print(rbt_ptr t, node_ptr c)
 {
     if (c == t->nil) return;
-    printf("Cache id (curr, left, right): %d %d %d\n", c->cid, c->left->cid, c->right->cid);
-    //print(t, c->right);
+    printf("Hash value (curr, left, right): %d %d %d\n", c->hv, c->left->hv, c->right->hv);
+    print(t, c->right);
 }
-
-
 
 cache_id recur_succ(rbt_ptr t, node_ptr root, node_ptr suc, hash_value value)
 {
-    if (root == t->nil){
-        printf("asdf\a\n");
-        return suc->cid;}
+    if (root == t->nil) {
+        return suc->cid;
+    }
     if (value == root->hv) {
         // return leftmost node of right subtree
         suc = root->right;
-        printf("Suc id:%d\n", suc->cid);
         if (suc == t->nil) {
             suc = root;
-            printf("entering 1st while loop\n");
-            while (suc->parent != t->nil && suc->cid < value) {
-                printf("suc is %d\n", suc->cid);
+            while (suc->parent != t->nil && suc->hv < value) {
                 suc = suc->parent;
             }
             return suc->cid;
         }
         while (suc->left != t->nil) {
-            printf("left\n");
-            printf("%d\n", suc->cid);
-
             suc = suc->left;
-            printf("%d\n", suc->cid);
         }
         return suc->cid;
     }
     if (root->hv > value) {
         suc = root;
-        printf("going left\n");
         return recur_succ(t, root->left, suc, value);
     }
     else {
-        printf("Going right\n");
         return recur_succ(t, root->right, suc, value);
     }
 

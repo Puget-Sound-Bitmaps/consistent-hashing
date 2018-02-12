@@ -1,11 +1,8 @@
-BIN := bin
-
-all:
-	clean
-	hash_test
-
-clean:
-	@if test -d $(BIN); then rm -rf $(BIN)/*; else mkdir $(BIN); fi
-
-hash_test:
-	@gcc -Wall hash_test.c -o bin/ht.o
+all: tree_map_test.c
+	@echo "Compiling tests..."
+	@rm -rf bin
+	@mkdir bin
+	@gcc -Wall tree_map_test.c ../src/bin/table.o ../src/bin/tree_map.o -o bin/tree_map_test.o -lssl -lcrypto
+	@echo "Running tests..."
+	@bin/tree_map_test.o
+	
