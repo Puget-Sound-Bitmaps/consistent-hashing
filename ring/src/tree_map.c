@@ -4,11 +4,10 @@
  */
 
 #include <stdlib.h>
-#include <stddef.h>
+//#include <stddef.h>
 #include <stdio.h>
 #include "tree_map.h"
 
-// the successor of a node
 cache_id succ(rbt_ptr t, hash_value value)
 {
     node_ptr curr = t->root;
@@ -31,7 +30,7 @@ cache_id recur_succ(rbt_ptr t, node_ptr root, node_ptr suc, hash_value value)
         return suc->cid;
     }
     if (value == root->hv) {
-        // return leftmost node of right subtree
+        /* return leftmost node of right subtree */
         suc = root->right;
         if (suc == t->nil) {
             suc = root;
@@ -63,7 +62,6 @@ node_ptr rbt_max(rbt_ptr t, node_ptr x)
 }
 
 rbt_ptr new_rbt(void)
-//(cache_id root_cache_id, hash_value root_hv)
 {
     rbt_ptr r;
     r = (rbt_ptr) malloc(sizeof(struct rbt));
@@ -71,7 +69,7 @@ rbt_ptr new_rbt(void)
     r->nil->color = BLACK;
     r->nil->hv = 0;
     r->nil->cid = 0;
-    r->root = r->nil;//new_node(r, root_cache_id, root_hv, BLACK);
+    r->root = r->nil;
     r->size = 0;
     return r;
 }
@@ -79,8 +77,6 @@ rbt_ptr new_rbt(void)
 node_ptr new_node(rbt_ptr t, cache_id cid, hash_value hv, rbt_node_color color)
 {
 
-    // if (hv == NIL_HV)
-    //     return NULL;
     node_ptr n;
 
     n = (node_ptr) malloc(sizeof(struct node));
@@ -253,6 +249,7 @@ void rbt_delete(rbt_ptr t, node_ptr z)
     }
     if (y_orig_col == BLACK)
         rbt_delete_fixup(t, x);
+    free(z);
 }
 
 void rbt_delete_fixup(rbt_ptr t, node_ptr x)
@@ -313,4 +310,19 @@ void rbt_delete_fixup(rbt_ptr t, node_ptr x)
         }
     }
     x->color = BLACK;
+}
+
+void recur_free_rbt(rbt_ptr t, node_ptr n)
+{
+    if (n->left != t->nil) recur_free_rbt(t, n->left);
+    if (n->right != t->nil) recur_free_rbt(t, n->right);
+    printf("Freeing %d\n", n->hv);
+    free(n);
+}
+
+void free_rbt(rbt_ptr t)
+{
+    recur_free_rbt(t, t->root);
+    free(t->nil);
+    free(t);
 }

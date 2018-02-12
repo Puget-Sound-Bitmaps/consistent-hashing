@@ -28,16 +28,14 @@ typedef struct rbt
     int size;
 } rbt;
 
-// RBT initialization functions
+/* RBT initialization functions */
 rbt_ptr new_rbt(void);
-//rbt_ptr new_rbt(cache_id, hash_value);
 node_ptr new_node(rbt_ptr, cache_id, hash_value, rbt_node_color);
 
-// destructors
+/* tree destructor */
 void free_rbt(rbt_ptr);
-void free_node(node_ptr);
 
-// RBT operations (from CLSR)
+/* RBT operations (from CLSR) */
 void left_rotate(rbt_ptr, node_ptr);
 void right_rotate(rbt_ptr, node_ptr);
 void rbt_insert(rbt_ptr, node_ptr);
@@ -47,6 +45,11 @@ node_ptr rbt_min(rbt_ptr, node_ptr);
 node_ptr rbt_max(rbt_ptr, node_ptr);
 void rbt_delete(rbt_ptr, node_ptr);
 void rbt_delete_fixup(rbt_ptr, node_ptr);
+
+/*
+ * The cache_id of the node n in the tree with the smallest hash_value hv
+ * such that n.hv > value.
+ */
 cache_id succ(rbt_ptr t, hash_value value);
 cache_id recur_succ(rbt_ptr t, node_ptr root, node_ptr suc, hash_value value);
 void print(rbt_ptr t, node_ptr c);

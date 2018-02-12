@@ -33,12 +33,10 @@ int main(int argc, char *argv[])
     bst_test(tree->root);
     printf("BST Test after inserting passed\n");
 
-    printf("Root cache id: %d\n", tree->root->cid );
-
     // successor function
     int i;
     for (i = 0; i < 17; i++) {
-        printf("Successor of %llu is %d\n", i, succ(tree, hash(i)));
+        printf("Successor of %d is %d\n", i, succ(tree, hash(i)));
     }
 
     // test deletions
@@ -46,9 +44,13 @@ int main(int argc, char *argv[])
     for (j = 0; j < 7; j++) {
         rbt_delete(tree, nodes[j]);
     }
+
     bst_test(tree->root);
     printf("BST Test after deletion passed\n");
-
+    print(tree, tree->root);
+    printf("Free RBT\n");
+    free_rbt(tree);
+    printf("Successfully freed\n");
     return 0;
 }
 
