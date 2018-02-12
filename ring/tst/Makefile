@@ -1,6 +1,6 @@
 BIN := bin/
 
-all: tree_map_test.o
+all: clean tree_map_test.o
 	@echo "Running tests...\n"
 	@bin/tree_map_test.o
 
